@@ -16,7 +16,7 @@
 import gql from 'graphql-tag';
 
 export default gql `
-    query {
+    query GetSupplierData {
         supplierData @client {
             brand
             year
