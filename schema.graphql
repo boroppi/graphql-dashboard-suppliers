@@ -1,0 +1,1326 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+# columns and relationships of "collection_products"
+type collection_products {
+  collection_id: Int!
+  id: Int!
+  product_id: Int!
+}
+
+# aggregated selection of "collection_products"
+type collection_products_aggregate {
+  aggregate: collection_products_aggregate_fields
+  nodes: [collection_products!]!
+}
+
+# aggregate fields of "collection_products"
+type collection_products_aggregate_fields {
+  avg: collection_products_avg_fields
+  count(columns: [collection_products_select_column!], distinct: Boolean): Int
+  max: collection_products_max_fields
+  min: collection_products_min_fields
+  stddev: collection_products_stddev_fields
+  stddev_pop: collection_products_stddev_pop_fields
+  stddev_samp: collection_products_stddev_samp_fields
+  sum: collection_products_sum_fields
+  var_pop: collection_products_var_pop_fields
+  var_samp: collection_products_var_samp_fields
+  variance: collection_products_variance_fields
+}
+
+# order by aggregate values of table "collection_products"
+input collection_products_aggregate_order_by {
+  avg: collection_products_avg_order_by
+  count: order_by
+  max: collection_products_max_order_by
+  min: collection_products_min_order_by
+  stddev: collection_products_stddev_order_by
+  stddev_pop: collection_products_stddev_pop_order_by
+  stddev_samp: collection_products_stddev_samp_order_by
+  sum: collection_products_sum_order_by
+  var_pop: collection_products_var_pop_order_by
+  var_samp: collection_products_var_samp_order_by
+  variance: collection_products_variance_order_by
+}
+
+# input type for inserting array relation for remote table "collection_products"
+input collection_products_arr_rel_insert_input {
+  data: [collection_products_insert_input!]!
+  on_conflict: collection_products_on_conflict
+}
+
+# aggregate avg on columns
+type collection_products_avg_fields {
+  collection_id: Float
+  id: Float
+  product_id: Float
+}
+
+# order by avg() on columns of table "collection_products"
+input collection_products_avg_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# Boolean expression to filter rows from the table "collection_products". All fields are combined with a logical 'AND'.
+input collection_products_bool_exp {
+  _and: [collection_products_bool_exp]
+  _not: collection_products_bool_exp
+  _or: [collection_products_bool_exp]
+  collection_id: Int_comparison_exp
+  id: Int_comparison_exp
+  product_id: Int_comparison_exp
+}
+
+# unique or primary key constraints on table "collection_products"
+enum collection_products_constraint {
+  # unique or primary key constraint
+  supplier_products_pkey
+
+  # unique or primary key constraint
+  supplier_products_supplier_id_product_id_key
+}
+
+# input type for incrementing integer columne in table "collection_products"
+input collection_products_inc_input {
+  collection_id: Int
+  id: Int
+  product_id: Int
+}
+
+# input type for inserting data into table "collection_products"
+input collection_products_insert_input {
+  collection_id: Int
+  id: Int
+  product_id: Int
+}
+
+# aggregate max on columns
+type collection_products_max_fields {
+  collection_id: Int
+  id: Int
+  product_id: Int
+}
+
+# order by max() on columns of table "collection_products"
+input collection_products_max_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# aggregate min on columns
+type collection_products_min_fields {
+  collection_id: Int
+  id: Int
+  product_id: Int
+}
+
+# order by min() on columns of table "collection_products"
+input collection_products_min_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# response of any mutation on the table "collection_products"
+type collection_products_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [collection_products!]!
+}
+
+# input type for inserting object relation for remote table "collection_products"
+input collection_products_obj_rel_insert_input {
+  data: collection_products_insert_input!
+  on_conflict: collection_products_on_conflict
+}
+
+# on conflict condition type for table "collection_products"
+input collection_products_on_conflict {
+  constraint: collection_products_constraint!
+  update_columns: [collection_products_update_column!]!
+  where: collection_products_bool_exp
+}
+
+# ordering options when selecting data from "collection_products"
+input collection_products_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# select columns of table "collection_products"
+enum collection_products_select_column {
+  # column name
+  collection_id
+
+  # column name
+  id
+
+  # column name
+  product_id
+}
+
+# input type for updating data in table "collection_products"
+input collection_products_set_input {
+  collection_id: Int
+  id: Int
+  product_id: Int
+}
+
+# aggregate stddev on columns
+type collection_products_stddev_fields {
+  collection_id: Float
+  id: Float
+  product_id: Float
+}
+
+# order by stddev() on columns of table "collection_products"
+input collection_products_stddev_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# aggregate stddev_pop on columns
+type collection_products_stddev_pop_fields {
+  collection_id: Float
+  id: Float
+  product_id: Float
+}
+
+# order by stddev_pop() on columns of table "collection_products"
+input collection_products_stddev_pop_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# aggregate stddev_samp on columns
+type collection_products_stddev_samp_fields {
+  collection_id: Float
+  id: Float
+  product_id: Float
+}
+
+# order by stddev_samp() on columns of table "collection_products"
+input collection_products_stddev_samp_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# aggregate sum on columns
+type collection_products_sum_fields {
+  collection_id: Int
+  id: Int
+  product_id: Int
+}
+
+# order by sum() on columns of table "collection_products"
+input collection_products_sum_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# update columns of table "collection_products"
+enum collection_products_update_column {
+  # column name
+  collection_id
+
+  # column name
+  id
+
+  # column name
+  product_id
+}
+
+# aggregate var_pop on columns
+type collection_products_var_pop_fields {
+  collection_id: Float
+  id: Float
+  product_id: Float
+}
+
+# order by var_pop() on columns of table "collection_products"
+input collection_products_var_pop_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# aggregate var_samp on columns
+type collection_products_var_samp_fields {
+  collection_id: Float
+  id: Float
+  product_id: Float
+}
+
+# order by var_samp() on columns of table "collection_products"
+input collection_products_var_samp_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# aggregate variance on columns
+type collection_products_variance_fields {
+  collection_id: Float
+  id: Float
+  product_id: Float
+}
+
+# order by variance() on columns of table "collection_products"
+input collection_products_variance_order_by {
+  collection_id: order_by
+  id: order_by
+  product_id: order_by
+}
+
+# expression to compare columns of type Int. All fields are combined with logical 'AND'.
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+# mutation root
+type mutation_root {
+  # delete data from the table: "collection_products"
+  delete_collection_products(
+    # filter the rows which have to be deleted
+    where: collection_products_bool_exp!
+  ): collection_products_mutation_response
+
+  # delete data from the table: "supplier_collections"
+  delete_supplier_collections(
+    # filter the rows which have to be deleted
+    where: supplier_collections_bool_exp!
+  ): supplier_collections_mutation_response
+
+  # delete data from the table: "suppliers"
+  delete_suppliers(
+    # filter the rows which have to be deleted
+    where: suppliers_bool_exp!
+  ): suppliers_mutation_response
+
+  # insert data into the table: "collection_products"
+  insert_collection_products(
+    # the rows to be inserted
+    objects: [collection_products_insert_input!]!
+
+    # on conflict condition
+    on_conflict: collection_products_on_conflict
+  ): collection_products_mutation_response
+
+  # insert data into the table: "supplier_collections"
+  insert_supplier_collections(
+    # the rows to be inserted
+    objects: [supplier_collections_insert_input!]!
+
+    # on conflict condition
+    on_conflict: supplier_collections_on_conflict
+  ): supplier_collections_mutation_response
+
+  # insert data into the table: "suppliers"
+  insert_suppliers(
+    # the rows to be inserted
+    objects: [suppliers_insert_input!]!
+
+    # on conflict condition
+    on_conflict: suppliers_on_conflict
+  ): suppliers_mutation_response
+
+  # update data of the table: "collection_products"
+  update_collection_products(
+    # increments the integer columns with given value of the filtered values
+    _inc: collection_products_inc_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: collection_products_set_input
+
+    # filter the rows which have to be updated
+    where: collection_products_bool_exp!
+  ): collection_products_mutation_response
+
+  # update data of the table: "supplier_collections"
+  update_supplier_collections(
+    # increments the integer columns with given value of the filtered values
+    _inc: supplier_collections_inc_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: supplier_collections_set_input
+
+    # filter the rows which have to be updated
+    where: supplier_collections_bool_exp!
+  ): supplier_collections_mutation_response
+
+  # update data of the table: "suppliers"
+  update_suppliers(
+    # increments the integer columns with given value of the filtered values
+    _inc: suppliers_inc_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: suppliers_set_input
+
+    # filter the rows which have to be updated
+    where: suppliers_bool_exp!
+  ): suppliers_mutation_response
+}
+
+# column ordering options
+enum order_by {
+  # in the ascending order, nulls last
+  asc
+
+  # in the ascending order, nulls first
+  asc_nulls_first
+
+  # in the ascending order, nulls last
+  asc_nulls_last
+
+  # in the descending order, nulls first
+  desc
+
+  # in the descending order, nulls first
+  desc_nulls_first
+
+  # in the descending order, nulls last
+  desc_nulls_last
+}
+
+# query root
+type query_root {
+  # fetch data from the table: "collection_products"
+  collection_products(
+    # distinct select on columns
+    distinct_on: [collection_products_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [collection_products_order_by!]
+
+    # filter the rows returned
+    where: collection_products_bool_exp
+  ): [collection_products!]!
+
+  # fetch aggregated fields from the table: "collection_products"
+  collection_products_aggregate(
+    # distinct select on columns
+    distinct_on: [collection_products_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [collection_products_order_by!]
+
+    # filter the rows returned
+    where: collection_products_bool_exp
+  ): collection_products_aggregate!
+
+  # fetch data from the table: "collection_products" using primary key columns
+  collection_products_by_pk(id: Int!): collection_products
+
+  # fetch data from the table: "supplier_collections"
+  supplier_collections(
+    # distinct select on columns
+    distinct_on: [supplier_collections_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [supplier_collections_order_by!]
+
+    # filter the rows returned
+    where: supplier_collections_bool_exp
+  ): [supplier_collections!]!
+
+  # fetch aggregated fields from the table: "supplier_collections"
+  supplier_collections_aggregate(
+    # distinct select on columns
+    distinct_on: [supplier_collections_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [supplier_collections_order_by!]
+
+    # filter the rows returned
+    where: supplier_collections_bool_exp
+  ): supplier_collections_aggregate!
+
+  # fetch data from the table: "supplier_collections" using primary key columns
+  supplier_collections_by_pk(id: Int!): supplier_collections
+
+  # fetch data from the table: "suppliers"
+  suppliers(
+    # distinct select on columns
+    distinct_on: [suppliers_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [suppliers_order_by!]
+
+    # filter the rows returned
+    where: suppliers_bool_exp
+  ): [suppliers!]!
+
+  # fetch aggregated fields from the table: "suppliers"
+  suppliers_aggregate(
+    # distinct select on columns
+    distinct_on: [suppliers_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [suppliers_order_by!]
+
+    # filter the rows returned
+    where: suppliers_bool_exp
+  ): suppliers_aggregate!
+
+  # fetch data from the table: "suppliers" using primary key columns
+  suppliers_by_pk(id: Int!): suppliers
+}
+
+# expression to compare columns of type String. All fields are combined with logical 'AND'.
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+# subscription root
+type subscription_root {
+  # fetch data from the table: "collection_products"
+  collection_products(
+    # distinct select on columns
+    distinct_on: [collection_products_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [collection_products_order_by!]
+
+    # filter the rows returned
+    where: collection_products_bool_exp
+  ): [collection_products!]!
+
+  # fetch aggregated fields from the table: "collection_products"
+  collection_products_aggregate(
+    # distinct select on columns
+    distinct_on: [collection_products_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [collection_products_order_by!]
+
+    # filter the rows returned
+    where: collection_products_bool_exp
+  ): collection_products_aggregate!
+
+  # fetch data from the table: "collection_products" using primary key columns
+  collection_products_by_pk(id: Int!): collection_products
+
+  # fetch data from the table: "supplier_collections"
+  supplier_collections(
+    # distinct select on columns
+    distinct_on: [supplier_collections_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [supplier_collections_order_by!]
+
+    # filter the rows returned
+    where: supplier_collections_bool_exp
+  ): [supplier_collections!]!
+
+  # fetch aggregated fields from the table: "supplier_collections"
+  supplier_collections_aggregate(
+    # distinct select on columns
+    distinct_on: [supplier_collections_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [supplier_collections_order_by!]
+
+    # filter the rows returned
+    where: supplier_collections_bool_exp
+  ): supplier_collections_aggregate!
+
+  # fetch data from the table: "supplier_collections" using primary key columns
+  supplier_collections_by_pk(id: Int!): supplier_collections
+
+  # fetch data from the table: "suppliers"
+  suppliers(
+    # distinct select on columns
+    distinct_on: [suppliers_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [suppliers_order_by!]
+
+    # filter the rows returned
+    where: suppliers_bool_exp
+  ): [suppliers!]!
+
+  # fetch aggregated fields from the table: "suppliers"
+  suppliers_aggregate(
+    # distinct select on columns
+    distinct_on: [suppliers_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [suppliers_order_by!]
+
+    # filter the rows returned
+    where: suppliers_bool_exp
+  ): suppliers_aggregate!
+
+  # fetch data from the table: "suppliers" using primary key columns
+  suppliers_by_pk(id: Int!): suppliers
+}
+
+# columns and relationships of "supplier_collections"
+type supplier_collections {
+  description: String!
+  id: Int!
+
+  # An array relationship
+  products(
+    # distinct select on columns
+    distinct_on: [collection_products_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [collection_products_order_by!]
+
+    # filter the rows returned
+    where: collection_products_bool_exp
+  ): [collection_products!]!
+
+  # An aggregated array relationship
+  products_aggregate(
+    # distinct select on columns
+    distinct_on: [collection_products_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [collection_products_order_by!]
+
+    # filter the rows returned
+    where: collection_products_bool_exp
+  ): collection_products_aggregate!
+  supplier_id: Int
+  title: String!
+}
+
+# aggregated selection of "supplier_collections"
+type supplier_collections_aggregate {
+  aggregate: supplier_collections_aggregate_fields
+  nodes: [supplier_collections!]!
+}
+
+# aggregate fields of "supplier_collections"
+type supplier_collections_aggregate_fields {
+  avg: supplier_collections_avg_fields
+  count(columns: [supplier_collections_select_column!], distinct: Boolean): Int
+  max: supplier_collections_max_fields
+  min: supplier_collections_min_fields
+  stddev: supplier_collections_stddev_fields
+  stddev_pop: supplier_collections_stddev_pop_fields
+  stddev_samp: supplier_collections_stddev_samp_fields
+  sum: supplier_collections_sum_fields
+  var_pop: supplier_collections_var_pop_fields
+  var_samp: supplier_collections_var_samp_fields
+  variance: supplier_collections_variance_fields
+}
+
+# order by aggregate values of table "supplier_collections"
+input supplier_collections_aggregate_order_by {
+  avg: supplier_collections_avg_order_by
+  count: order_by
+  max: supplier_collections_max_order_by
+  min: supplier_collections_min_order_by
+  stddev: supplier_collections_stddev_order_by
+  stddev_pop: supplier_collections_stddev_pop_order_by
+  stddev_samp: supplier_collections_stddev_samp_order_by
+  sum: supplier_collections_sum_order_by
+  var_pop: supplier_collections_var_pop_order_by
+  var_samp: supplier_collections_var_samp_order_by
+  variance: supplier_collections_variance_order_by
+}
+
+# input type for inserting array relation for remote table "supplier_collections"
+input supplier_collections_arr_rel_insert_input {
+  data: [supplier_collections_insert_input!]!
+  on_conflict: supplier_collections_on_conflict
+}
+
+# aggregate avg on columns
+type supplier_collections_avg_fields {
+  id: Float
+  supplier_id: Float
+}
+
+# order by avg() on columns of table "supplier_collections"
+input supplier_collections_avg_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# Boolean expression to filter rows from the table "supplier_collections". All fields are combined with a logical 'AND'.
+input supplier_collections_bool_exp {
+  _and: [supplier_collections_bool_exp]
+  _not: supplier_collections_bool_exp
+  _or: [supplier_collections_bool_exp]
+  description: String_comparison_exp
+  id: Int_comparison_exp
+  products: collection_products_bool_exp
+  supplier_id: Int_comparison_exp
+  title: String_comparison_exp
+}
+
+# unique or primary key constraints on table "supplier_collections"
+enum supplier_collections_constraint {
+  # unique or primary key constraint
+  supplier_collections_pkey
+}
+
+# input type for incrementing integer columne in table "supplier_collections"
+input supplier_collections_inc_input {
+  id: Int
+  supplier_id: Int
+}
+
+# input type for inserting data into table "supplier_collections"
+input supplier_collections_insert_input {
+  description: String
+  id: Int
+  products: collection_products_arr_rel_insert_input
+  supplier_id: Int
+  title: String
+}
+
+# aggregate max on columns
+type supplier_collections_max_fields {
+  description: String
+  id: Int
+  supplier_id: Int
+  title: String
+}
+
+# order by max() on columns of table "supplier_collections"
+input supplier_collections_max_order_by {
+  description: order_by
+  id: order_by
+  supplier_id: order_by
+  title: order_by
+}
+
+# aggregate min on columns
+type supplier_collections_min_fields {
+  description: String
+  id: Int
+  supplier_id: Int
+  title: String
+}
+
+# order by min() on columns of table "supplier_collections"
+input supplier_collections_min_order_by {
+  description: order_by
+  id: order_by
+  supplier_id: order_by
+  title: order_by
+}
+
+# response of any mutation on the table "supplier_collections"
+type supplier_collections_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [supplier_collections!]!
+}
+
+# input type for inserting object relation for remote table "supplier_collections"
+input supplier_collections_obj_rel_insert_input {
+  data: supplier_collections_insert_input!
+  on_conflict: supplier_collections_on_conflict
+}
+
+# on conflict condition type for table "supplier_collections"
+input supplier_collections_on_conflict {
+  constraint: supplier_collections_constraint!
+  update_columns: [supplier_collections_update_column!]!
+  where: supplier_collections_bool_exp
+}
+
+# ordering options when selecting data from "supplier_collections"
+input supplier_collections_order_by {
+  description: order_by
+  id: order_by
+  products_aggregate: collection_products_aggregate_order_by
+  supplier_id: order_by
+  title: order_by
+}
+
+# select columns of table "supplier_collections"
+enum supplier_collections_select_column {
+  # column name
+  description
+
+  # column name
+  id
+
+  # column name
+  supplier_id
+
+  # column name
+  title
+}
+
+# input type for updating data in table "supplier_collections"
+input supplier_collections_set_input {
+  description: String
+  id: Int
+  supplier_id: Int
+  title: String
+}
+
+# aggregate stddev on columns
+type supplier_collections_stddev_fields {
+  id: Float
+  supplier_id: Float
+}
+
+# order by stddev() on columns of table "supplier_collections"
+input supplier_collections_stddev_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# aggregate stddev_pop on columns
+type supplier_collections_stddev_pop_fields {
+  id: Float
+  supplier_id: Float
+}
+
+# order by stddev_pop() on columns of table "supplier_collections"
+input supplier_collections_stddev_pop_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# aggregate stddev_samp on columns
+type supplier_collections_stddev_samp_fields {
+  id: Float
+  supplier_id: Float
+}
+
+# order by stddev_samp() on columns of table "supplier_collections"
+input supplier_collections_stddev_samp_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# aggregate sum on columns
+type supplier_collections_sum_fields {
+  id: Int
+  supplier_id: Int
+}
+
+# order by sum() on columns of table "supplier_collections"
+input supplier_collections_sum_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# update columns of table "supplier_collections"
+enum supplier_collections_update_column {
+  # column name
+  description
+
+  # column name
+  id
+
+  # column name
+  supplier_id
+
+  # column name
+  title
+}
+
+# aggregate var_pop on columns
+type supplier_collections_var_pop_fields {
+  id: Float
+  supplier_id: Float
+}
+
+# order by var_pop() on columns of table "supplier_collections"
+input supplier_collections_var_pop_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# aggregate var_samp on columns
+type supplier_collections_var_samp_fields {
+  id: Float
+  supplier_id: Float
+}
+
+# order by var_samp() on columns of table "supplier_collections"
+input supplier_collections_var_samp_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# aggregate variance on columns
+type supplier_collections_variance_fields {
+  id: Float
+  supplier_id: Float
+}
+
+# order by variance() on columns of table "supplier_collections"
+input supplier_collections_variance_order_by {
+  id: order_by
+  supplier_id: order_by
+}
+
+# columns and relationships of "suppliers"
+type suppliers {
+  brand: String!
+
+  # An array relationship
+  collections(
+    # distinct select on columns
+    distinct_on: [supplier_collections_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [supplier_collections_order_by!]
+
+    # filter the rows returned
+    where: supplier_collections_bool_exp
+  ): [supplier_collections!]!
+
+  # An aggregated array relationship
+  collections_aggregate(
+    # distinct select on columns
+    distinct_on: [supplier_collections_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [supplier_collections_order_by!]
+
+    # filter the rows returned
+    where: supplier_collections_bool_exp
+  ): supplier_collections_aggregate!
+  description: String!
+  id: Int!
+  location: String
+  values: String
+  year: Int!
+}
+
+# aggregated selection of "suppliers"
+type suppliers_aggregate {
+  aggregate: suppliers_aggregate_fields
+  nodes: [suppliers!]!
+}
+
+# aggregate fields of "suppliers"
+type suppliers_aggregate_fields {
+  avg: suppliers_avg_fields
+  count(columns: [suppliers_select_column!], distinct: Boolean): Int
+  max: suppliers_max_fields
+  min: suppliers_min_fields
+  stddev: suppliers_stddev_fields
+  stddev_pop: suppliers_stddev_pop_fields
+  stddev_samp: suppliers_stddev_samp_fields
+  sum: suppliers_sum_fields
+  var_pop: suppliers_var_pop_fields
+  var_samp: suppliers_var_samp_fields
+  variance: suppliers_variance_fields
+}
+
+# order by aggregate values of table "suppliers"
+input suppliers_aggregate_order_by {
+  avg: suppliers_avg_order_by
+  count: order_by
+  max: suppliers_max_order_by
+  min: suppliers_min_order_by
+  stddev: suppliers_stddev_order_by
+  stddev_pop: suppliers_stddev_pop_order_by
+  stddev_samp: suppliers_stddev_samp_order_by
+  sum: suppliers_sum_order_by
+  var_pop: suppliers_var_pop_order_by
+  var_samp: suppliers_var_samp_order_by
+  variance: suppliers_variance_order_by
+}
+
+# input type for inserting array relation for remote table "suppliers"
+input suppliers_arr_rel_insert_input {
+  data: [suppliers_insert_input!]!
+  on_conflict: suppliers_on_conflict
+}
+
+# aggregate avg on columns
+type suppliers_avg_fields {
+  id: Float
+  year: Float
+}
+
+# order by avg() on columns of table "suppliers"
+input suppliers_avg_order_by {
+  id: order_by
+  year: order_by
+}
+
+# Boolean expression to filter rows from the table "suppliers". All fields are combined with a logical 'AND'.
+input suppliers_bool_exp {
+  _and: [suppliers_bool_exp]
+  _not: suppliers_bool_exp
+  _or: [suppliers_bool_exp]
+  brand: String_comparison_exp
+  collections: supplier_collections_bool_exp
+  description: String_comparison_exp
+  id: Int_comparison_exp
+  location: String_comparison_exp
+  values: String_comparison_exp
+  year: Int_comparison_exp
+}
+
+# unique or primary key constraints on table "suppliers"
+enum suppliers_constraint {
+  # unique or primary key constraint
+  suppliers_pkey
+}
+
+# input type for incrementing integer columne in table "suppliers"
+input suppliers_inc_input {
+  id: Int
+  year: Int
+}
+
+# input type for inserting data into table "suppliers"
+input suppliers_insert_input {
+  brand: String
+  collections: supplier_collections_arr_rel_insert_input
+  description: String
+  id: Int
+  location: String
+  values: String
+  year: Int
+}
+
+# aggregate max on columns
+type suppliers_max_fields {
+  brand: String
+  description: String
+  id: Int
+  location: String
+  values: String
+  year: Int
+}
+
+# order by max() on columns of table "suppliers"
+input suppliers_max_order_by {
+  brand: order_by
+  description: order_by
+  id: order_by
+  location: order_by
+  values: order_by
+  year: order_by
+}
+
+# aggregate min on columns
+type suppliers_min_fields {
+  brand: String
+  description: String
+  id: Int
+  location: String
+  values: String
+  year: Int
+}
+
+# order by min() on columns of table "suppliers"
+input suppliers_min_order_by {
+  brand: order_by
+  description: order_by
+  id: order_by
+  location: order_by
+  values: order_by
+  year: order_by
+}
+
+# response of any mutation on the table "suppliers"
+type suppliers_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [suppliers!]!
+}
+
+# input type for inserting object relation for remote table "suppliers"
+input suppliers_obj_rel_insert_input {
+  data: suppliers_insert_input!
+  on_conflict: suppliers_on_conflict
+}
+
+# on conflict condition type for table "suppliers"
+input suppliers_on_conflict {
+  constraint: suppliers_constraint!
+  update_columns: [suppliers_update_column!]!
+  where: suppliers_bool_exp
+}
+
+# ordering options when selecting data from "suppliers"
+input suppliers_order_by {
+  brand: order_by
+  collections_aggregate: supplier_collections_aggregate_order_by
+  description: order_by
+  id: order_by
+  location: order_by
+  values: order_by
+  year: order_by
+}
+
+# select columns of table "suppliers"
+enum suppliers_select_column {
+  # column name
+  brand
+
+  # column name
+  description
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  values
+
+  # column name
+  year
+}
+
+# input type for updating data in table "suppliers"
+input suppliers_set_input {
+  brand: String
+  description: String
+  id: Int
+  location: String
+  values: String
+  year: Int
+}
+
+# aggregate stddev on columns
+type suppliers_stddev_fields {
+  id: Float
+  year: Float
+}
+
+# order by stddev() on columns of table "suppliers"
+input suppliers_stddev_order_by {
+  id: order_by
+  year: order_by
+}
+
+# aggregate stddev_pop on columns
+type suppliers_stddev_pop_fields {
+  id: Float
+  year: Float
+}
+
+# order by stddev_pop() on columns of table "suppliers"
+input suppliers_stddev_pop_order_by {
+  id: order_by
+  year: order_by
+}
+
+# aggregate stddev_samp on columns
+type suppliers_stddev_samp_fields {
+  id: Float
+  year: Float
+}
+
+# order by stddev_samp() on columns of table "suppliers"
+input suppliers_stddev_samp_order_by {
+  id: order_by
+  year: order_by
+}
+
+# aggregate sum on columns
+type suppliers_sum_fields {
+  id: Int
+  year: Int
+}
+
+# order by sum() on columns of table "suppliers"
+input suppliers_sum_order_by {
+  id: order_by
+  year: order_by
+}
+
+# update columns of table "suppliers"
+enum suppliers_update_column {
+  # column name
+  brand
+
+  # column name
+  description
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  values
+
+  # column name
+  year
+}
+
+# aggregate var_pop on columns
+type suppliers_var_pop_fields {
+  id: Float
+  year: Float
+}
+
+# order by var_pop() on columns of table "suppliers"
+input suppliers_var_pop_order_by {
+  id: order_by
+  year: order_by
+}
+
+# aggregate var_samp on columns
+type suppliers_var_samp_fields {
+  id: Float
+  year: Float
+}
+
+# order by var_samp() on columns of table "suppliers"
+input suppliers_var_samp_order_by {
+  id: order_by
+  year: order_by
+}
+
+# aggregate variance on columns
+type suppliers_variance_fields {
+  id: Float
+  year: Float
+}
+
+# order by variance() on columns of table "suppliers"
+input suppliers_variance_order_by {
+  id: order_by
+  year: order_by
+}
