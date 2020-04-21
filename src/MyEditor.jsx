@@ -196,9 +196,15 @@ export default class SimpleSideToolbarEditor extends Component {
           ...input,
           collections: {
             data: {
-              title: "SUMMER",
-              description: "SUMMER SEASON CLOTHES",
-              products: { data: { product_id: 10 } } // Need to find a way to pass array of product ids
+              title: "SUMMER2",
+              description: "SUMMER SEASON CLOTHES2",
+              products: {
+                data: [
+                  { product_id: 10 },
+                  { product_id: 11 },
+                  { product_id: 12 }
+                ]
+              }
             }
           }
         }
