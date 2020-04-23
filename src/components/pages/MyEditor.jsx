@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Row } from "antd";
 import {
   convertFromRaw,
@@ -18,7 +19,7 @@ import createFocusPlugin from "draft-js-focus-plugin";
 import createResizeablePlugin from "draft-js-resizeable-plugin";
 import createBlockDndPlugin from "draft-js-drag-n-drop-plugin";
 import createDragNDropUploadPlugin from "@mikeljames/draft-js-drag-n-drop-upload-plugin";
-import mockUpload from "./mockUpload";
+import mockUpload from "../../mockUpload";
 
 import "draft-js-focus-plugin/lib/plugin.css";
 import "draft-js-image-plugin/lib/plugin.css";
@@ -44,7 +45,7 @@ import {
 } from "draft-js-buttons";
 import { Button, Col } from "antd";
 import CollectionsPage from "./CollectionsComponent";
-import { INSERT_SUPPLIER } from "./graphql/mutations/insertSupplierData";
+import { INSERT_SUPPLIER } from "../../graphql/mutations/insertSupplierData";
 
 const sideToolbarPlugin = createSideToolbarPlugin();
 
@@ -86,7 +87,7 @@ const initialState = {
       type: "IMAGE",
       mutability: "IMMUTABLE",
       data: {
-        src: "./canada-landscape-small.jpg"
+        src: "/canada-landscape-small.jpg"
       }
     }
   },
@@ -128,7 +129,7 @@ const initialState = {
   ]
 };
 /* eslint-enable */
-export default class SimpleSideToolbarEditor extends Component {
+class SimpleSideToolbarEditor extends Component {
   constructor(props) {
     super(props);
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -189,14 +190,26 @@ export default class SimpleSideToolbarEditor extends Component {
       return;
     }
 
+    let collections = this.props.collections;
+    // Get the last added one, as it should be the one added last
+    let collection = collections[collections.length - 1];
+    if (collection && collection.products) {
+      collection.products = collection.products.map(id => {
+        return { product_id: id };
+      });
+
+      collection.products = { data: [...collection.products] };
+    }
+
+    console.info("cabbar", input, collection);
     e.preventDefault();
     insertSupplierData({
       variables: {
         supplier: {
           ...input,
           collections: {
-            data: {
-              title: "SUMMER2",
+            data: { ...collection }
+            /*    title: "SUMMER2",
               description: "SUMMER SEASON CLOTHES2",
               products: {
                 data: [
@@ -204,8 +217,7 @@ export default class SimpleSideToolbarEditor extends Component {
                   { product_id: 11 },
                   { product_id: 12 }
                 ]
-              }
-            }
+              } */
           }
         }
       }
@@ -228,6 +240,7 @@ export default class SimpleSideToolbarEditor extends Component {
   };
 
   render() {
+    console.info("cabbar redux", this.props.collections);
     return (
       <>
         <div className="editor" onClick={this.focus}>
@@ -292,7 +305,7 @@ export default class SimpleSideToolbarEditor extends Component {
             </Mutation>
           </Col>
           <Col>
-            <CollectionsPage />
+            <CollectionsPage c11Client={this.props.c11Client} />
           </Col>
         </Row>
 
@@ -306,3 +319,11 @@ export default class SimpleSideToolbarEditor extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    collections: state.supplierReducer.collections
+  };
+};
+
+export default connect(mapStateToProps)(SimpleSideToolbarEditor);

@@ -1021,7 +1021,6 @@ type suppliers {
   description: String!
   id: Int!
   location: String
-  supplierVID: String!
   values: String
   year: Int!
 }
@@ -1090,7 +1089,6 @@ input suppliers_bool_exp {
   description: String_comparison_exp
   id: Int_comparison_exp
   location: String_comparison_exp
-  supplierVID: String_comparison_exp
   values: String_comparison_exp
   year: Int_comparison_exp
 }
@@ -1099,9 +1097,6 @@ input suppliers_bool_exp {
 enum suppliers_constraint {
   # unique or primary key constraint
   suppliers_pkey
-
-  # unique or primary key constraint
-  suppliers_supplierVID_key
 }
 
 # input type for incrementing integer columne in table "suppliers"
@@ -1117,7 +1112,6 @@ input suppliers_insert_input {
   description: String
   id: Int
   location: String
-  supplierVID: String
   values: String
   year: Int
 }
@@ -1128,7 +1122,6 @@ type suppliers_max_fields {
   description: String
   id: Int
   location: String
-  supplierVID: String
   values: String
   year: Int
 }
@@ -1139,7 +1132,6 @@ input suppliers_max_order_by {
   description: order_by
   id: order_by
   location: order_by
-  supplierVID: order_by
   values: order_by
   year: order_by
 }
@@ -1150,7 +1142,6 @@ type suppliers_min_fields {
   description: String
   id: Int
   location: String
-  supplierVID: String
   values: String
   year: Int
 }
@@ -1161,7 +1152,6 @@ input suppliers_min_order_by {
   description: order_by
   id: order_by
   location: order_by
-  supplierVID: order_by
   values: order_by
   year: order_by
 }
@@ -1195,7 +1185,6 @@ input suppliers_order_by {
   description: order_by
   id: order_by
   location: order_by
-  supplierVID: order_by
   values: order_by
   year: order_by
 }
@@ -1215,9 +1204,6 @@ enum suppliers_select_column {
   location
 
   # column name
-  supplierVID
-
-  # column name
   values
 
   # column name
@@ -1230,7 +1216,6 @@ input suppliers_set_input {
   description: String
   id: Int
   location: String
-  supplierVID: String
   values: String
   year: Int
 }
@@ -1298,9 +1283,6 @@ enum suppliers_update_column {
   location
 
   # column name
-  supplierVID
-
-  # column name
   values
 
   # column name
@@ -1342,4 +1324,3 @@ input suppliers_variance_order_by {
   id: order_by
   year: order_by
 }
-

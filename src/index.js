@@ -59,10 +59,21 @@ const client = new ApolloClient({
   resolvers
 });
 
+const c11Client = new ApolloClient({
+  connectToDevTools: true,
+  link: ApolloLink.from([
+    stateLink,
+    new HttpLink({ uri: "https://c11ca1.avetti.ca/preview/graphql/" })
+  ]),
+  cache,
+  typeDefs,
+  resolvers
+});
+
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <App />
+      <App c11Client={c11Client} />
     </Provider>
   </ApolloProvider>,
   document.getElementById("root")

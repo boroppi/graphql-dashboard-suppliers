@@ -1,0 +1,465 @@
+type Category {
+  categoryId: ID!
+  vendorId: String
+
+  # category name
+  name: String
+  description: String
+  image: String
+  image2: String
+  image3: String
+  image4: String
+  image5: String
+
+  # category thumbnail image
+  thumbnail: String
+  thumbnail2: String
+  thumbnail3: String
+  thumbnail4: String
+  thumbnail5: String
+
+  # Tell Lucene to not show any items in this category in search results
+  hideInSearch: Int
+  modifyTime: String
+  creatorId: String
+
+  # From supplier feature. Determine if this category is updated on a time from Amazon or another supplier
+  supplierId: String
+
+  # SEO meta keywords html tag content
+  metaKeywords: String
+
+  # SEO meta description html tag content
+  metaDescription: String
+  pageTitle: String
+
+  # dead category flag
+  deadFlag: Boolean
+
+  # Date category should first be visible on the store
+  startDate: String
+
+  # Last Day category should be visible on the store
+  endDate: String
+
+  # Keywords used by internal Lucene search engine
+  keywords: String
+
+  # Is category available or not. All childCategoryDTO must check this.
+  # If checked code should make unavailable all items in this category
+  # by setting @link{Items#available} flag 
+  available: String
+
+  # Auto generate SEO urls feature will not modify the 3 SEO fields for this category
+  urlLocked: Boolean
+
+  # Url to use in the url to replace store.html. Site Admin Auto Generate SEO Urls
+  # feature set this to /parentcat/subcat/catname
+  seoUrl: String
+  longDesc: String
+  longDesc2: String
+
+  # Sub Store ID
+  subStoreId: Int
+  hasChild: Boolean
+  googleCategory: String
+  template: Template
+  categroyProperties: [CategoryProperty]
+}
+
+type CategoryProperty {
+  propertyId: ID!
+  categoryId: ID!
+  vendorId: String!
+  propertyNumber: Int
+  propertyName: String
+  propertyValue: String
+}
+
+type Currency {
+  conversion: Float
+
+  # default currency (1-yes, 0-no)
+  defaultCurrency: Int
+  modifyTime: String
+  usdConversionRate: Float
+  billingCurrencyId: Int
+  billingCurrencyCode: String
+  a3code: String
+  sign: String
+  description: String
+}
+
+type Distributor {
+  distributorId: ID!
+  vendorId: String!
+  code: String!
+  name: String!
+  description: String
+  supplierVid: String!
+  storeName: String
+  storeWebsite: String
+  latitude: String
+  longitude: String
+  address1: String
+  address2: String
+  street: String
+  neighbourhood: String
+  city: String
+  country: String
+  postalCode: String
+  phone: String
+  smsPhone: String
+  storeInfo: String
+  storeHours: String
+  rating: Float
+  ratingCount: Int
+  createOnly: Int
+  supplyOnly: Int
+}
+
+type Inventory {
+  inventoryId: ID!
+  vendorId: String!
+  code: String!
+  itemId: ID!
+  inStock: Int
+  inStockBuffer: Int
+  onOrder: Int
+  subCode: String
+  lastOutOfStock: String
+  lastInStock: String
+  pickPackDays: Int
+  nextShipQty: Int
+  nextShipDate: String
+  dropShipMinQty: Int
+  dropShipDays: Int
+  minReorderQty: Int
+
+  # true by default -- NOT show the inventory value on item page
+  hide: Boolean
+  enableEditDeliveryDate: Boolean
+  discontinued: Boolean
+  thirdpartyInventory: Boolean
+  thirdpartyCode: String
+  wholesalerIdString: String
+  modifyTime: String
+  onDisplay: Boolean
+  minOrderQty: Int
+  defaultDelivery: Int
+  distributor: Distributor
+}
+
+type InventoryConnection {
+  edges: [InventoryConnectionEdge]
+  pageInfo: PageInfo
+}
+
+type InventoryConnectionEdge {
+  cursor: String
+  node: Inventory
+}
+
+input InventoryInput {
+  inventoryId: ID
+  vendorId: String!
+  code: String!
+  itemId: ID!
+
+  # Used to identifify the action:<br> * 1 - INCREMENT_DECRECREMENT_BY<br> * 2 - OVERRIDE
+  requestAction: Int
+  requestStock: Int
+  inStockBuffer: Int
+  onOrder: Int
+  subCode: String
+
+  # yyyy-MM-dd HH:mm:ss
+  lastOutOfStock: String
+
+  # yyyy-MM-dd HH:mm:ss
+  lastInStock: String
+  pickPackDays: Int
+  nextShipQty: Int
+
+  # yyyy-MM-dd HH:mm:ss
+  nextShipDate: String
+  dropShipMinQty: Int
+  dropShipDays: Int
+  minReorderQty: Int
+
+  # true by default -- NOT show the inventory value on item page
+  hide: Boolean
+  enableEditDeliveryDate: Boolean
+  discontinued: Boolean
+  thirdpartyInventory: Boolean
+  thirdpartyCode: String
+  wholesalerIdString: String
+
+  # yyyy-MM-dd HH:mm:ss
+  modifyTime: String
+  onDisplay: Boolean
+  minOrderQty: Int
+  defaultDelivery: Int
+  distributorId: Int
+}
+
+type Item {
+  # item identifier */
+  itemId: ID!
+  vendorId: String!
+  code: String!
+
+  # item title
+  title: String!
+
+  # To be used by Lucene to have a textual version of Item title to 
+  # search on. ie. If title is 101 Dalmations. Sort hint would be one
+  # hundred and one Dalmations. Not currently used by Lucene.
+  # private String sorthint;
+  #
+  # Weight of item:<br>
+  #  1 - lbs (default value)<br>
+  #  2 - kg<br>
+  #  3 - grams<br>
+  #  4 - ounce<br>
+  weight: Float
+
+  # length of item
+  length: Float
+
+  # width of item
+  width: Float
+
+  # height of item
+  height: Float
+
+  # Similar to Item title but used in the basket and invoice. Where as item title is used in the item page.
+  shortDesc: String
+
+  # item description
+  longDesc: String
+
+  # determines the shipping rate group of this item
+  shipType: String
+
+  # Determines if we should charge tax for this item. For example if this
+  # is a donatation item no tax is changed. Not sure if code uses this.
+  # This flag should be moved to offerprice. 
+  taxable: Int
+
+  # Code to specify lbs, kg, gms
+  weightType: Int
+
+  # Code to specify inches, cms
+  lengthType: Int
+  longDesc2: String
+  longDesc3: String
+  longDesc4: String
+  longDesc5: String
+
+  # Held description of 'Sale text' for an item. Now used as an extra long desc field.
+  # Better to use item personalization based on promotion
+  specialDesc: String
+
+  # item last modification time
+  modifyTime: String
+
+  # id of admin that created this item
+  creatorId: String
+
+  # Manufacture or brand name, ie. Sony.
+  manufactureName: String
+
+  # Manufacture part number, ie. Sony's part
+  manufacturePartNumber: String
+  hide: Int
+
+  # Identifier if this is a preorder item. This tells user that if he 
+  # buys this item he will not get it immediately as it will ship
+  # in the podate. 
+  preOrder: String
+
+  # Should Item be visible on staging. Dtos use this variable to determine
+  # if item is visible in cat, item pages and lucene queries.
+  publishState: String
+
+  # Should item be visible on the shop. Maps to pubstate on live during publish.
+  # NP means not published (not visible). P means published (visible)
+  livePublishState: String
+  startDate: String
+  endDate: String
+
+  # Is item available or not. If available it shows up in categories,
+  # item page and search. This value is used on the DTOs to limit item
+  # visibility and in Lucene index queries
+  available: Boolean
+
+  # Used for SEO. Set on item edit page or via auto generate seo urls
+  keywords: String
+
+  # SEO meta description html tag
+  metaDescription: String
+
+  # SEO page title HTML tag
+  pageTitle: String
+
+  # SEO url cannot overwritten by autogenerate SEO urls preference
+  urlLocked: Boolean
+
+  # SEO url used in url in place of store.html/storeitem.html
+  seoUrl: String
+
+  # * Used to identifify the type of an item:<br>
+  # * 0 - Hard good<br>
+  # * 1 - Url item<br>
+  # * 2 - downloadable content
+  itemType: Int
+
+  # item images
+  itemImage: String
+  itemImage2: String
+  itemImage3: String
+  itemImage4: String
+  itemImage5: String
+
+  # large images
+  largeImage: String
+  largeImage2: String
+  largeImage3: String
+  largeImage4: String
+  largeImage5: String
+
+  # thumbnail images
+  thumbnail: String
+  thumbnail2: String
+  thumbnail3: String
+  thumbnail4: String
+  thumbnail5: String
+
+  # small images
+  smallImage: String
+  smallImage2: String
+  smallImage3: String
+  smallImage4: String
+  smallImage5: String
+  onSaleImage: String
+  lpItemImage: String
+  lpLargeImage: String
+  seoHeadline: String
+
+  # Used by item copier for MCW
+  copyTime: String
+  mcwUpdate: Boolean
+  itemTheme: Int
+
+  # Breadcrumb category
+  baseCategory: Category
+  template: Template
+  properties: [ItemProperty]
+  offerPrices: [OfferPrice]
+  mcwItem: Item
+  parentItem: Item
+  storeCode: StoreCode
+  inventories: [Inventory]
+}
+
+type ItemProperty {
+  propertyId: ID!
+  itemId: ID!
+  vendorId: String
+  propertyNumber: Int
+  propertyName: String
+  propertyValue: String
+  propertyDesc: String
+  hidden: String
+  propertyGroup: String
+}
+
+type Mutation {
+  updateInventory(inventoryId: ID!, inventory: InventoryInput): Inventory
+  createInventory(inventory: InventoryInput): Inventory
+  deleteInventory(inventoryIds: [ID]!): String
+}
+
+type OfferPrice {
+  id: ID!
+  vendorId: String!
+  priceLabel: String
+  offerCode: String
+  itemCode: String
+  startDate: String
+  endDate: String
+  price1: Float
+  price2: Float
+  price3: Float
+  price4: Float
+  price5: Float
+  qty1: Int
+  qty2: Int
+  qty3: Int
+  qty4: Int
+  setup: Float
+  default: String
+  discount1: Float
+  discount2: Float
+  discount3: Float
+  discount4: Float
+  discount5: Float
+  priority: Int
+  listPrice: Float
+  shopperGroupId: ID
+  sku: String
+  weight: Float
+  modifyTime: String
+
+  # Used for marketplace price copy
+  copyTime: String
+  billAmount: Float
+  timesToBill: Int
+  billPeriod: Int
+  updateAble: Int
+  supplier: Int
+  defautPriceId: Int
+  itemId: ID!
+  onSale: Float
+  points: Int
+
+  # to limit how little a store can sell their products for
+  map: Float
+  distributor: Distributor
+  currency: Currency
+}
+
+type PageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# scalar Date
+type Query {
+  getItems(vendorId: String!, beginIndex: Int, maxResult: Int): [Item]
+  getItemsByCodeOrTitle(vendorId: String!, codeOrTitle: String!): [Item]
+  getCategories(vendorId: String!): [Category]
+  getInventoryOnEdge(first: Int, after: String, vendorId: String!): InventoryConnection
+  getInventories(vendorId: String!, beginIndex: Int, maxResult: Int): [Inventory]
+  getInventoryByItemId(vendorId: String!, itemId: ID!): [Inventory]
+  getInventoryById(vendorId: String!, inventoryId: ID!): Inventory
+}
+
+type StoreCode {
+  codeName: String
+  livePublishState: String
+  publishState: String
+  code: Int
+  title: String
+}
+
+type Template {
+  catalogId: ID!
+  vendorId: String!
+  name: String!
+  modifyTime: String
+}
+

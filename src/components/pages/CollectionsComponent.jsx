@@ -3,11 +3,11 @@ import { Button, Modal, Form, Input, Transfer } from "antd";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 /* import updateSupplierData from "./graphql/mutations/updateSupplierData"; */
-import { GET_ALL_ITEMS } from "./graphql/graphql_queries";
+import { GET_ALL_ITEMS } from "../../graphql/graphql_queries";
 
-import { addData } from "../src/redux/actions/supplierActions";
+import { addData } from "../../redux/actions/supplierActions";
 
-const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
   const collectionsState = useSelector(
     state => state.supplierReducer.collections,
     shallowEqual
@@ -17,14 +17,15 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
     mockData: [{}],
     targetKeys: []
   });
-
   const { data, loading, error } = useQuery(GET_ALL_ITEMS, {
+    client: c11Client,
     variables: { vendorId: "20170130806" }
   });
 
   const [form] = Form.useForm();
 
   useEffect(() => {
+    console.info("data", data);
     if (!error && !loading) {
       setRowData({
         ...rowData,
@@ -44,6 +45,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
       ...rowData,
       targetKeys
     });
+
     setCollection({ ...collection, products: targetKeys });
   };
 
@@ -118,7 +120,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-const CollectionsPage = () => {
+const CollectionsPage = ({ c11Client }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   /*   const [mutateSupplier] = useMutation(updateSupplierData); */
@@ -139,6 +141,7 @@ const CollectionsPage = () => {
         New Collection
       </Button>
       <CollectionCreateForm
+        c11Client={c11Client}
         visible={visible}
         onCreate={onCreate}
         onCancel={() => {
