@@ -12,8 +12,8 @@ import configureStore from "./redux/index.js";
 
 import "antd/dist/antd.css";
 import "draft-js/dist/Draft.css";
-import "./css/style.css";
-import "./css/DraftStyleDefault.css";
+import "./components/pages/css/style.css";
+import "./components/pages/css/DraftStyleDefault.css";
 
 import App from "./App";
 import { resolvers, typeDefs } from "./graphql/resolvers/resolvers.js";
