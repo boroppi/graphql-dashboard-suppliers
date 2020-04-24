@@ -1,0 +1,24 @@
+.container {
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.collection-item {
+  cursor: pointer;
+  background: #fff;
+  padding: 10px;
+  position: relative;
+  border: 1px solid rgba(217, 217, 217);
+  border-radius: 2px;
+}
+.collection-item:hover {
+  border-color: rgb(64, 169, 255);
+}
+.collection-title {
+  font-size: 20px;
+  padding: 10px 0;
+  text-align: center;
+}
+.slick-next:before,
+.slick-prev:before {
+  color: #000;
+}

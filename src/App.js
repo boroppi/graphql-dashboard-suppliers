@@ -7,13 +7,14 @@ import Home from "./components/pages/Home";
 import Supplier from "./components/pages/Supplier";
 
 import history from "./history";
+import "./components/pages/css/App.css";
 
 export const App = ({ c11Client }) => {
   return (
     <Router history={history}>
       <div className="App">
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" render={() => <Home c11Client={c11Client} />} />
 
           <Route
             exact

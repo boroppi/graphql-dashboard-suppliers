@@ -13,15 +13,15 @@
  */
 
 // The list of all used GraphQl queries
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
-export default gql `
-    query GetSupplierData {
-        supplierData @client {
-            brand
-            year
-            values
-            location
-        }
+export default gql`
+  query GetSupplierData {
+    supplierData @client {
+      brand
+      year
+      values
+      location
     }
-`
+  }
+`;

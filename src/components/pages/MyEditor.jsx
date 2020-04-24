@@ -201,7 +201,6 @@ class SimpleSideToolbarEditor extends Component {
       collection.products = { data: [...collection.products] };
     }
 
-    console.info("cabbar", input, collection);
     e.preventDefault();
     insertSupplierData({
       variables: {
@@ -240,7 +239,6 @@ class SimpleSideToolbarEditor extends Component {
   };
 
   render() {
-    console.info("cabbar redux", this.props.collections);
     return (
       <>
         <div className="editor" onClick={this.focus}>

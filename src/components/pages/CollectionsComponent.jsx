@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from "react";
+
 import { Button, Modal, Form, Input, Transfer } from "antd";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 /* import updateSupplierData from "./graphql/mutations/updateSupplierData"; */
 import { GET_ALL_ITEMS } from "../../graphql/graphql_queries";
 
-import { addData } from "../../redux/actions/supplierActions";
+import {
+  addData,
+  setAllProductsAction
+} from "../../redux/actions/supplierActions";
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
+  const dispatch = useDispatch();
+
   const collectionsState = useSelector(
     state => state.supplierReducer.collections,
     shallowEqual
   );
+
   const [collection, setCollection] = useState({});
+
   const [rowData, setRowData] = useState({
     mockData: [{}],
     targetKeys: []
   });
+
   const { data, loading, error } = useQuery(GET_ALL_ITEMS, {
     client: c11Client,
     variables: { vendorId: "20170130806" }
@@ -31,6 +40,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
         ...rowData,
         mockData: data.getItems
       });
+      dispatch(setAllProductsAction(data.getItems));
     }
   }, [data]);
 

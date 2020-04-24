@@ -42,6 +42,9 @@ export const GET_ALL_ITEMS = gql`
       itemId
       code
       title
+      seoUrl
+      itemImage
+      thumbnail
     }
   }
 `;
