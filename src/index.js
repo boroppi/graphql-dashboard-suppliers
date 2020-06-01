@@ -42,6 +42,20 @@ const defaultState = {
   }
 };
 
+const cleanTypeName = new ApolloLink((operation, forward) => {
+  if (operation.variables) {
+    const omitTypename = (key, value) =>
+      key === "__typename" ? undefined : value;
+    operation.variables = JSON.parse(
+      JSON.stringify(operation.variables),
+      omitTypename
+    );
+  }
+  return forward(operation).map(data => {
+    return data;
+  });
+});
+
 const stateLink = withClientState({
   cache,
   defaults: defaultState,
@@ -50,6 +64,7 @@ const stateLink = withClientState({
 const client = new ApolloClient({
   connectToDevTools: true,
   link: ApolloLink.from([
+    cleanTypeName,
     stateLink,
     new HttpLink({ uri: "https://kirill-test.herokuapp.com/v1/graphql" })
     //new HttpLink({ uri: "https://c11ca1.avetti.ca/preview/graphql/" })
@@ -63,7 +78,10 @@ const c11Client = new ApolloClient({
   connectToDevTools: true,
   link: ApolloLink.from([
     stateLink,
-    new HttpLink({ uri: "https://c11ca1.avetti.ca/preview/graphql/" })
+    new HttpLink({
+      uri:
+        "https://hasura-c11a-mockdata.herokuapp.com/v1/graphql" /* "https://c11ca1.avetti.ca/preview/graphql/" */
+    })
   ]),
   cache,
   typeDefs,

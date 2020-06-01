@@ -6,47 +6,85 @@ import { Button, Modal, Form, Input, Transfer } from "antd";
 
 import { Typography } from "antd";
 import "./css/SliderComponent.css";
+
+import { EditOutlined } from "@ant-design/icons";
 const { Title } = Typography;
 
 export default function SliderComponent({ input, setInput }) {
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
+
   const collectionsState = useSelector(
     state => state.supplierReducer.supplier.collections,
     shallowEqual
   );
+  /* 
+  const [collectionsState, setCollectionsState] = useState([]);
+  useEffect(() => {
+    if (collectionsReduxState) {
+      setCollectionsState([
+        ...collectionsReduxState.sort((a, b) => {
+          return a.id - b.id;
+        })
+      ]);
+    }
+  }, [collectionsReduxState]); */
 
-  const allProductsState = useSelector(
+  const allProductsReduxState = useSelector(
     state => state.supplierReducer.allProducts,
     shallowEqual
   );
 
-  const [collectionEditModal, setCollectionEditModal] = useState({
-    open: false,
-    data: null
-  });
-
-  const selectedCollectionIndex =
-    collectionEditModal.data && collectionEditModal.data.index;
-
-  const [targetKeys, setTargetKeys] = useState([]);
+  const [allProductsState, setAllProductsState] = useState([]);
 
   useEffect(() => {
-    if (selectedCollectionIndex != null) {
-      setTargetKeys([
-        ...input.collections[selectedCollectionIndex].products.reduce(
-          (a, c) => {
-            a.push(c.product_id);
-            return a;
-          },
-          []
-        )
-      ]);
+    if (allProductsReduxState) {
+      setAllProductsState(
+        allProductsReduxState.reduce((a, c) => {
+          let data = { key: c.product_id, title: c.title };
+          a.push(data);
+          return a;
+        }, [])
+      );
     }
-  }, [selectedCollectionIndex]);
+  }, [allProductsReduxState]);
+
+  const [collectionEditModal, setCollectionEditModal] = useState({
+    open: false,
+    data: null,
+    index: null
+  });
+
+  const [targetKeys, setTargetKeys] = useState([]);
+  const [collection, setCollection] = useState({});
+
+  useEffect(() => {
+    if (collectionEditModal.data) {
+      const { index } = collectionEditModal;
+      let tempCollections = Object.assign([], input.collections);
+
+      setTargetKeys([
+        ...tempCollections[index].products.reduce((a, c) => {
+          a.push(c.product_id);
+          return a;
+        }, [])
+      ]);
+
+      setCollection({
+        ...tempCollections[index]
+      });
+    } else {
+      setTargetKeys([]);
+
+      setCollection({});
+    }
+  }, [collectionEditModal.data]);
+
+  useEffect(() => {
+    form.setFieldsValue({ ...collection });
+  }, [collection]);
 
   console.info("rowdata", targetKeys);
-
-  const [form] = Form.useForm();
 
   const settings = {
     dots: true,
@@ -59,45 +97,62 @@ export default function SliderComponent({ input, setInput }) {
   console.info("qwe", form);
 
   const handleCollectionItemClicked = (event, item, index) => {
-    setCollectionEditModal({ open: true, data: { item, index } });
+    event.preventDefault();
+    setCollectionEditModal({ open: true, data: item, index: index });
   };
 
   /*   const [mutateSupplier] = useMutation(updateSupplierData); */
   const onCreate = values => {
     console.log("Received values of form: ", values);
-    //  dispatch(addData(values));
-    setCollectionEditModal({ open: false, data: null });
+    const { index } = collectionEditModal;
+    setInput({
+      ...input,
+      collections: [
+        ...input.collections.map((col, i) => {
+          if (i == index) {
+            col = values;
+          }
+          return col;
+        })
+      ]
+    });
+    setCollectionEditModal({ open: false, data: null, index: null });
   };
   const handleOnCancel = () => {
-    setCollectionEditModal({ open: false, data: null });
+    setCollectionEditModal({ open: false, data: null, index: null });
   };
 
   const handleOnOk = () => {
-    /*   form
+    form
       .validateFields()
       .then(values => {
+        console.info("form values", values);
         form.resetFields();
         onCreate(collection);
       })
       .catch(info => {
         console.log("Validate Failed:", info);
-      }); */
+      });
   };
 
-  let collection = "";
-  if (selectedCollectionIndex != null)
-    collection = { ...input.collections[selectedCollectionIndex] };
+  const handleChange = targetKeys => {
+    setTargetKeys([...targetKeys]);
 
-  const handleChange = ids => {
-    targetKeys([...ids]);
+    let tempProducts = targetKeys.map(id => {
+      return {
+        product_id: id,
+        title: allProductsState.find(data => data.key == id).title || ""
+      };
+    });
 
-    setInput({
+    setCollection({ ...collection, products: tempProducts });
+    /*  setInput({
       ...input,
       [input.collections[selectedCollectionIndex]]: {
         ...input.collections[selectedCollectionIndex],
         products: [...ids]
       } // edit the collection we actually clicked on
-    });
+    }); */
   };
 
   const handleSearch = (dir, value) => {
@@ -106,17 +161,22 @@ export default function SliderComponent({ input, setInput }) {
 
   const handleInputChanged = (e, name) => {
     const { value } = e.target;
-    console.info("input event slider", e);
 
-    collection = { ...collection, [name]: value };
-    setInput({
+    setCollection({
+      ...collection,
+      [name]: value
+    });
+
+    // setCollection({ ...collection, [name]: value });
+    /*  setInput({
       ...input,
       collections: [
         ...input.collections.filter(col => col.id != collection.id),
         collection
       ]
-    });
+    }); */
   };
+  console.info("collection", collection, collectionEditModal.data);
 
   const renderEditCollectionModal = () => {
     return (
@@ -128,16 +188,7 @@ export default function SliderComponent({ input, setInput }) {
         onCancel={handleOnCancel}
         onOk={handleOnOk}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          name="form_in_modal"
-          initialValues={
-            selectedCollectionIndex != null && {
-              ...input.collections[selectedCollectionIndex]
-            }
-          }
-        >
+        <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
             name="title"
             label="Title"
@@ -188,23 +239,41 @@ export default function SliderComponent({ input, setInput }) {
       {collectionsState && collectionsState.length !== 0 ? (
         <div className="collection-items-wrapper">
           <Title level={4}>My Collections</Title>
-          <Slider {...settings}>
-            {collectionsState.map((item, index) => {
-              return (
-                <div
-                  onClick={event =>
-                    handleCollectionItemClicked(event, item, index)
-                  }
-                  key={index}
-                  className="collection-item"
-                >
-                  <h6 className="collection-title">{`${item.title}`}</h6>
-                  <label>Product Count:&nbsp;</label>
-                  <span>{item.products.length}</span>
+          {collectionsState.map((item, index) => {
+            return (
+              <div key={index} className="collection-wrapper">
+                <div className={"collection-item-title-wrapper"}>
+                  <Title
+                    className={"collection-item-title"}
+                    onClick={event =>
+                      handleCollectionItemClicked(event, item, index)
+                    }
+                    level={4}
+                  >
+                    {item.title}
+                    &nbsp;
+                    <EditOutlined />
+                  </Title>
                 </div>
-              );
-            })}
-          </Slider>
+
+                <Slider {...settings}>
+                  {item.products.map(product => {
+                    return (
+                      <div className="collection-item-wrapper">
+                        <div className="collection-item">
+                          <div className="collection-item--content">
+                            <h6 className="collection-title">{`${product.title}`}</h6>
+                            <label>product id:&nbsp;</label>
+                            <span>{product.product_id}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Slider>
+              </div>
+            );
+          })}
         </div>
       ) : null}
     </div>

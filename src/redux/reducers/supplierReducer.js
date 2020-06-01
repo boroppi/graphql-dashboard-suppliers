@@ -1,7 +1,9 @@
 import {
   ADD_DATA_TO_COLLECTION,
   MAP_DATA_TO_SUPPLIERS_STATE,
-  SET_ALL_PRODUCTS
+  SET_ALL_PRODUCTS,
+  UNMOUNT_SUPPLIER,
+  CHANGE_SUPPLIER_VID
 } from "../types.js";
 
 const initialState = {
@@ -20,12 +22,25 @@ const initialState = {
   allProducts: []
 };
 
+const copyOfInitialState = { ...initialState };
+
 const mainReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case CHANGE_SUPPLIER_VID:
+      return {
+        ...state,
+        supplier: {
+          ...state.supplier,
+          supplierVID: payload
+        }
+      };
     case ADD_DATA_TO_COLLECTION:
       return {
         ...state,
-        collections: [...state.collections, payload]
+        supplier: {
+          ...state.supplier,
+          collections: [...state.supplier.collections, payload]
+        }
       };
     case MAP_DATA_TO_SUPPLIERS_STATE:
       return {
@@ -37,6 +52,13 @@ const mainReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         allProducts: payload
+      };
+    case UNMOUNT_SUPPLIER:
+      return {
+        ...state,
+        supplier: {
+          ...copyOfInitialState.supplier
+        }
       };
 
     //ADD_INIT_DATA_TO_COLLECTION

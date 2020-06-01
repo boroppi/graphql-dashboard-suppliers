@@ -43,7 +43,7 @@ import {
   OrderedListButton,
   BlockquoteButton
 } from "draft-js-buttons";
-import { Button, Col } from "antd";
+import { Button, Col, notification } from "antd";
 import CollectionsPage from "./CollectionsComponent";
 import { INSERT_SUPPLIER } from "../../graphql/mutations/insertSupplierData";
 
@@ -79,7 +79,6 @@ const plugins = [
 ];
 
 const requiredSupplierFields = ["brand", "description", "year"];
-
 /* eslint-disable */
 const initialState = {
   entityMap: {
@@ -176,6 +175,7 @@ class SimpleSideToolbarEditor extends Component {
   }
 
   handleSaveBtnClicked(e, insertSupplierData) {
+    e.preventDefault();
     let input = this.props.input;
 
     let missingFields = [];
@@ -190,24 +190,23 @@ class SimpleSideToolbarEditor extends Component {
       return;
     }
 
-    let collections = this.props.collections;
-    // Get the last added one, as it should be the one added last
-    let collection = collections[collections.length - 1];
-    if (collection && collection.products) {
-      collection.products = collection.products.map(id => {
-        return { product_id: id };
-      });
+    console.info("SAVE BTN CLICKED", this.props.supplier);
 
-      collection.products = { data: [...collection.products] };
-    }
+    let collections = Object.assign([], this.props.supplier.collections);
 
-    e.preventDefault();
+    collections.forEach(col => {
+      col.products = {
+        data: col.products
+      };
+    });
+    console.info("SAVE BTN CLICKED", collections);
+
     insertSupplierData({
       variables: {
         supplier: {
           ...input,
           collections: {
-            data: { ...collection }
+            data: collections
             /*    title: "SUMMER2",
               description: "SUMMER SEASON CLOTHES2",
               products: {
@@ -285,25 +284,38 @@ class SimpleSideToolbarEditor extends Component {
         <Row justify="space-between">
           <Col>
             <Mutation mutation={INSERT_SUPPLIER}>
-              {(insertSupplierData, { data }) => {
-                let input = this.props.input;
+              {(insertSupplierData, { data, error, loading }) => {
+                console.info("save btn clicked after", data, error, loading);
+
+                if (!loading && !error && data && this.props.newSupplier) {
+                  this.props.reFetchSupplierPage();
+                  notification.success({
+                    message: "Success creating the supplier",
+                    description:
+                      "The supplier has been created successfully, you can now edit your supplier."
+                  });
+                }
+
                 return (
-                  <React.Fragment>
-                    <Button
-                      type="secondary"
-                      onClick={e =>
-                        this.handleSaveBtnClicked(e, insertSupplierData)
-                      }
-                    >
-                      Save
-                    </Button>
-                  </React.Fragment>
+                  <Button
+                    loading={loading}
+                    type="secondary"
+                    onClick={e =>
+                      this.handleSaveBtnClicked(e, insertSupplierData)
+                    }
+                  >
+                    {this.props.newSupplier ? `Save` : `Update`}
+                  </Button>
                 );
               }}
             </Mutation>
           </Col>
           <Col>
-            <CollectionsPage c11Client={this.props.c11Client} />
+            <CollectionsPage
+              input={this.props.input}
+              setInput={this.props.setInput}
+              c11Client={this.props.c11Client}
+            />
           </Col>
         </Row>
 
@@ -320,7 +332,7 @@ class SimpleSideToolbarEditor extends Component {
 
 const mapStateToProps = state => {
   return {
-    collections: state.supplierReducer.collections
+    supplier: state.supplierReducer.supplier
   };
 };
 

@@ -4,7 +4,10 @@ import { Button, Modal, Form, Input, Transfer } from "antd";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useQuery } from "@apollo/react-hooks";
 /* import updateSupplierData from "./graphql/mutations/updateSupplierData"; */
-import { GET_ALL_ITEMS } from "../../graphql/graphql_queries";
+import {
+  GET_ALL_ITEMS,
+  GET_SUPPLIERS_PRODUCTS
+} from "../../graphql/graphql_queries";
 
 import {
   addData,
@@ -19,16 +22,21 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
     shallowEqual
   );
 
-  const [collection, setCollection] = useState({});
+  const [collection, setCollection] = useState({ products: [] });
 
   const [rowData, setRowData] = useState({
     mockData: [{}],
     targetKeys: []
   });
 
-  const { data, loading, error } = useQuery(GET_ALL_ITEMS, {
+  /*   const { data, loading, error } = useQuery(GET_ALL_ITEMS, {
     client: c11Client,
     variables: { vendorId: "20170130806" }
+  }); */
+
+  const { data, loading, error } = useQuery(GET_SUPPLIERS_PRODUCTS, {
+    client: c11Client,
+    variables: { /* vendorId */ supplierVid: "20170130806" }
   });
 
   const [form] = Form.useForm();
@@ -38,17 +46,23 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
     if (!error && !loading) {
       setRowData({
         ...rowData,
-        mockData: data.getItems
+        mockData: data.suppliers[0].supplier_items.reduce((a, c) => {
+          let data = { key: c.product_id, title: c.title };
+          a.push(data);
+          return a;
+        }, [])
       });
-      dispatch(setAllProductsAction(data.getItems));
+      dispatch(setAllProductsAction(data.suppliers[0].supplier_items));
     }
   }, [data]);
 
   if (error) return `Error! ${error}`;
 
-  rowData.mockData.forEach(
+  /*   rowData.mockData.forEach(
     (object, index) => (object.key = parseInt(object.itemId))
-  );
+  ); */
+
+  console.info("mockData", rowData);
 
   const handleChange = (targetKeys, direction, moveKeys) => {
     setRowData({
@@ -56,7 +70,14 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
       targetKeys
     });
 
-    setCollection({ ...collection, products: targetKeys });
+    let tempProducts = targetKeys.map(id => {
+      return {
+        product_id: id,
+        title: rowData.mockData.find(data => data.key == id).title || ""
+      };
+    });
+
+    setCollection({ ...collection, products: tempProducts });
   };
 
   const handleSearch = (dir, value) => {
@@ -75,6 +96,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
           .validateFields()
           .then(values => {
             form.resetFields();
+            setRowData({ ...rowData, targetKeys: [] }); // Reset selected keys
             onCreate(collection);
           })
           .catch(info => {
@@ -130,13 +152,15 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, c11Client }) => {
   );
 };
 
-const CollectionsPage = ({ c11Client }) => {
+const CollectionsPage = ({ c11Client, setInput, input }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   /*   const [mutateSupplier] = useMutation(updateSupplierData); */
   const onCreate = values => {
     console.log("Received values of form: ", values);
-    dispatch(addData(values));
+
+    setInput({ ...input, collections: [...input.collections, values] });
+    // dispatch(addData(values));
     setVisible(false);
   };
 

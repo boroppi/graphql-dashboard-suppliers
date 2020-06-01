@@ -17,11 +17,22 @@ const Home = ({ c11Client }) => {
     client: c11Client
   });
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (data && !loading && !error) {
       setListOfVids(
         data.getVendors.reduce((a, c) => {
           a.push(c.vendorId);
+          return a;
+        }, [])
+      );
+    }
+  }, [data]); */
+
+  useEffect(() => {
+    if (data && !loading && !error) {
+      setListOfVids(
+        data.suppliers.reduce((a, c) => {
+          a.push(c.supplierVid);
           return a;
         }, [])
       );

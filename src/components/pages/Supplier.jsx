@@ -5,7 +5,11 @@ import { Row, Col, Input, Layout, Typography, Button } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import history from "../../history";
 import getSupplierDataByVID from "../../graphql/queries/getSupplierByVID";
-import { mapDataToSuppliersStateAction } from "../../redux/actions/supplierActions";
+import {
+  mapDataToSuppliersStateAction,
+  unMountSupplierAction,
+  changeSupplierVIDAction
+} from "../../redux/actions/supplierActions";
 import {
   UserOutlined,
   EnvironmentOutlined,
@@ -28,15 +32,37 @@ const Supplier = ({ c11Client }) => {
     shallowEqual
   );
 
-  const [input, setInput] = useState("");
-
-  const { data, loading, error } = useQuery(getSupplierDataByVID, {
-    variables: { vid: supplierVid }
-  });
+  const [input, setInput] = useState(supplierReduxState);
 
   useEffect(() => {
-    if (data && !error && !loading)
+    //  dispatch(changeSupplierVIDAction(supplierVid));
+    setInput({ ...input, supplierVID: supplierVid });
+    return () => {
+      dispatch(unMountSupplierAction());
+    };
+  }, []);
+
+  const { data, loading, error, refetch: reFetchSupplierPage } = useQuery(
+    getSupplierDataByVID,
+    {
+      variables: { vid: supplierVid }
+    }
+  );
+
+  const newSupplier = !(
+    data &&
+    data.suppliers &&
+    data.suppliers.length > 0 &&
+    !error &&
+    !loading
+  );
+
+  useEffect(() => {
+    if (data && data.suppliers.length > 0 && !error && !loading) {
+      console.info("input changed", data.suppliers[0], input);
+
       setInput({ ...input, ...data.suppliers[0] });
+    }
   }, [data]);
 
   useEffect(() => {
@@ -45,7 +71,7 @@ const Supplier = ({ c11Client }) => {
     }
   }, [input]);
 
-  console.info("supplier data", data);
+  console.info("input change", input, data);
 
   //console.info("supplierData", supplierVid, data, loading, error);
 
@@ -167,8 +193,11 @@ const Supplier = ({ c11Client }) => {
         <Row justify="center" style={{ marginTop: "1rem" }}>
           <Col xs={21} lg={LARGE_SIZE} xl={LARGE_SIZE}>
             <MyEditor
+              newSupplier={newSupplier}
+              reFetchSupplierPage={reFetchSupplierPage}
               c11Client={c11Client}
               input={input}
+              setInput={setInput}
               setValidationErrors={setValidationErrors}
               renderValidationErrors={renderValidationErrors}
             />

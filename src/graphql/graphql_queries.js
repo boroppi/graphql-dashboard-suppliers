@@ -49,6 +49,18 @@ export const GET_ALL_ITEMS = gql`
   }
 `;
 
+// c11a mock database
+export const GET_SUPPLIERS_PRODUCTS = gql`
+  query getSuppliersProducts($supplierVid: String!) {
+    suppliers(where: { supplierVid: { _eq: $supplierVid } }) {
+      supplier_items {
+        product_id
+        title
+      }
+    }
+  }
+`;
+
 // Mutations
 export const UPDATE_SUPPLIER_DATA = gql`
   mutation UpdateSuppliers(

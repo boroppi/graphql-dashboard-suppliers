@@ -8,7 +8,10 @@ schema {
 type collection_products {
   collection_id: Int!
   id: Int!
+  image: String
   product_id: Int!
+  title: String
+  url: String
 }
 
 # aggregated selection of "collection_products"
@@ -74,7 +77,10 @@ input collection_products_bool_exp {
   _or: [collection_products_bool_exp]
   collection_id: Int_comparison_exp
   id: Int_comparison_exp
+  image: String_comparison_exp
   product_id: Int_comparison_exp
+  title: String_comparison_exp
+  url: String_comparison_exp
 }
 
 # unique or primary key constraints on table "collection_products"
@@ -97,35 +103,50 @@ input collection_products_inc_input {
 input collection_products_insert_input {
   collection_id: Int
   id: Int
+  image: String
   product_id: Int
+  title: String
+  url: String
 }
 
 # aggregate max on columns
 type collection_products_max_fields {
   collection_id: Int
   id: Int
+  image: String
   product_id: Int
+  title: String
+  url: String
 }
 
 # order by max() on columns of table "collection_products"
 input collection_products_max_order_by {
   collection_id: order_by
   id: order_by
+  image: order_by
   product_id: order_by
+  title: order_by
+  url: order_by
 }
 
 # aggregate min on columns
 type collection_products_min_fields {
   collection_id: Int
   id: Int
+  image: String
   product_id: Int
+  title: String
+  url: String
 }
 
 # order by min() on columns of table "collection_products"
 input collection_products_min_order_by {
   collection_id: order_by
   id: order_by
+  image: order_by
   product_id: order_by
+  title: order_by
+  url: order_by
 }
 
 # response of any mutation on the table "collection_products"
@@ -154,7 +175,10 @@ input collection_products_on_conflict {
 input collection_products_order_by {
   collection_id: order_by
   id: order_by
+  image: order_by
   product_id: order_by
+  title: order_by
+  url: order_by
 }
 
 # select columns of table "collection_products"
@@ -166,14 +190,26 @@ enum collection_products_select_column {
   id
 
   # column name
+  image
+
+  # column name
   product_id
+
+  # column name
+  title
+
+  # column name
+  url
 }
 
 # input type for updating data in table "collection_products"
 input collection_products_set_input {
   collection_id: Int
   id: Int
+  image: String
   product_id: Int
+  title: String
+  url: String
 }
 
 # aggregate stddev on columns
@@ -241,7 +277,16 @@ enum collection_products_update_column {
   id
 
   # column name
+  image
+
+  # column name
   product_id
+
+  # column name
+  title
+
+  # column name
+  url
 }
 
 # aggregate var_pop on columns
@@ -665,7 +710,7 @@ type subscription_root {
 
 # columns and relationships of "supplier_collections"
 type supplier_collections {
-  description: String!
+  description: String
   id: Int!
 
   # An array relationship
@@ -703,7 +748,7 @@ type supplier_collections {
     # filter the rows returned
     where: collection_products_bool_exp
   ): collection_products_aggregate!
-  supplier_id: Int
+  supplier_id: Int!
   title: String!
 }
 
@@ -775,6 +820,9 @@ input supplier_collections_bool_exp {
 
 # unique or primary key constraints on table "supplier_collections"
 enum supplier_collections_constraint {
+  # unique or primary key constraint
+  supplier_collections_id_supplier_id_key
+
   # unique or primary key constraint
   supplier_collections_pkey
 }

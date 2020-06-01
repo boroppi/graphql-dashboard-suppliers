@@ -2,14 +2,43 @@
   margin: 0 auto;
   padding: 20px 0;
 }
+
 .collection-item {
   cursor: pointer;
   background: #fff;
   padding: 10px;
+  margin: 10px;
   position: relative;
   border: 1px solid rgba(217, 217, 217);
   border-radius: 2px;
 }
+
+.collection-wrapper {
+  padding: 20px;
+}
+
+.collection-item-wrapper:not(:last-of-type) {
+  margin-top: 20px;
+}
+
+.collection-item-title-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.collection-item-title {
+  font-size: 18px !important;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+
+.collection-item-title:hover {
+  border-color: rgb(64, 169, 255);
+}
+
 .collection-item:hover {
   border-color: rgb(64, 169, 255);
 }
@@ -20,5 +49,5 @@
 }
 .slick-next:before,
 .slick-prev:before {
-  color: #000;
+  color: #000 !important;
 }

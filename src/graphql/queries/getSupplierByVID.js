@@ -21,6 +21,7 @@ export default gql`
         description
         products {
           product_id
+          title
         }
       }
     }
